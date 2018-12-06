@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Santillana</title>
+    <link rel="shortcut icon" href="assets/img/favicon.png">
+
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="controller/commons.js"></script>
+    <script src="controller/authorization.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <img src="assets/img/santillana-light.svg" style="height:40px;" />
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+    <div class="jumbotron jumbotron-fluid" style="background-color: white">
+        <div class="container">
+            <div ng-app="authApp" ng-controller="updateAuth">
+                <form method="POST" id="auth" novalidate class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2" style="margin-top: 4px;" for="tableCaption"><strong>Tabla</strong></label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control crom-input crom-none" id="tableCaption" ng-model="auth.tableCaption" name="tableCaption" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2" style="margin-top: 4px;" for="recordPrimaryKey"><strong>ID</strong></label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control crom-input crom-none" id="recordPrimaryKey" ng-model="auth.recordPrimaryKey" name="recordPrimaryKey" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2" style="margin-top: 4px;" for="recordDescription"><strong>Descripción</strong></label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control crom-input crom-none" id="recordDescription" ng-model="auth.recordDescription" name="recordDescription" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2" style="margin-top: 4px;" for="fieldCaption"><strong>Campo</strong></label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control crom-input crom-none" id="fieldCaption" ng-model="auth.fieldCaption" name="fieldCaption" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2" style="margin-top: 4px;" for="requesterUserName"><strong>Solicitante</strong></label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control crom-input crom-none" id="requesterUserName" ng-model="auth.requesterUserName" name="requesterUserName" readonly>
+                        </div>
+                    </div>
+                    <div ng-repeat="x in auth.lAddtional">
+                        <div class="form-group row">
+                            <label class="control-label col-sm-2" style="margin-top: 4px;" for="value"><strong>{{x.key}}</strong></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control crom-input crom-none" id="value" ng-model="x.value" name="value" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2" style="margin-top: 4px;" for="postingDate"><strong>Fecha de Solicitud</strong></label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control crom-input crom-none" id="postingDate" ng-model="auth.postingDate" name="postingDate" readonly>
+                        </div>
+                    </div>
+                    <div ng-hide="adds.pending">
+                        <div class="form-group row">
+                            <label class="control-label col-sm-2" style="margin-top: 4px;" for="approverUserName"><strong>Autorizado por</strong></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control crom-input crom-none" id="approverUserName" ng-model="auth.approverUserName" name="approverUserName" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-sm-2" style="margin-top: 4px;" for="authorizedDate"><strong>Fecha Autorización</strong></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control crom-input crom-none" id="authorizedDate" ng-model="auth.authorizedDate" name="authorizedDate" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="control-label col-sm-2" style="margin-top: 4px;" for="status"><strong>Estado</strong></label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control crom-input crom-none" id="status" ng-model="adds.status" name="status" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2" style="margin-top: 4px;" for="oldValue"><strong>Valor Antiguo</strong></label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control crom-input crom-none" id="oldValue" ng-model="auth.oldValue" name="oldValue" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="control-label col-sm-2" style="margin-top: 4px;" for="newValue"><strong>Valor Nuevo</strong></label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control crom-input crom-none" id="newValue" ng-model="auth.newValue" name="newValue" readonly>
+                        </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                        <label class="control-label col-sm-2" style="margin-top: 4px;" for="message"><strong>Mensaje</strong></label>
+                        <div class="col-sm-5">
+                            <textarea ng-readonly="!adds.pending" type="text" class="form-control crom-input crom-none" id="message" ng-model="auth.message" name="message" maxlength="250"></textarea>
+                        </div>
+                    </div> -->
+                    <div class="form-group" ng-show="adds.pending">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input type="submit" style="background-color: green; color: white;" ng-click="accept(auth)" class="btn btn-default crom-input" value="Aceptar">
+                            <input type="submit" style="background-color: red; color: white;" ng-click="refuse(auth)" class="btn btn-default crom-input" value="Rechazar">
+                        </div>
+                    </div>
+                    <img src="assets/img/aprobado.png" style="max-width: 100%;" ng-show="adds.accepted">
+                    <img src="assets/img/rechazado.png" style="max-width: 100%;" ng-show="adds.refused">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer style="background-color: slategray; color: white;">©2018 Santillana</footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
