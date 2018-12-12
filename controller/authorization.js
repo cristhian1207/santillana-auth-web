@@ -1,12 +1,14 @@
 var app = angular.module('authApp', []);
 
 app.controller('updateAuth', function($scope, $http, $location, $window) {
+    // Obteniendo los valores enviado por el path
     var authID = $location.path().split('/')[1];
     var userID = $location.path().split('/')[2];
     var userName = $location.path().split('/')[3];
     var pathStatus = Number($location.path().split('/')[4]);
     var adds = {};
     uri_getAuthorization += authID;
+    // Obteninendo la autorización
     $http({
         method: 'GET',
         url: uri_getAuthorization
@@ -31,6 +33,7 @@ app.controller('updateAuth', function($scope, $http, $location, $window) {
         $scope.auth = response.data.data;
         $scope.adds = adds;
 
+        // Si la autorización está pendiente; entonces, se actualizará según el estado enviado por el path
         if ((pathStatus != 0) && (response.data.data.status == 0)) {
             response.data.data.status = pathStatus;
             response.data.data.approverUserID = userID;
@@ -39,6 +42,8 @@ app.controller('updateAuth', function($scope, $http, $location, $window) {
         }
     });
 
+    // @Deprecated
+    // Evento que se activa al hacer click en el botón Aceptar
     $scope.accept = function(auth) {
         auth.status = 1;
         auth.approverUserID = userID;
@@ -46,6 +51,8 @@ app.controller('updateAuth', function($scope, $http, $location, $window) {
         updateAuth($http, $window, auth);
     }
 
+    // @Deprecated
+    // Evento que se activa al hacer click en el botón Rechazar
     $scope.refuse = function(auth) {
         auth.status = 2;
         auth.approverUserID = userID;
@@ -54,13 +61,13 @@ app.controller('updateAuth', function($scope, $http, $location, $window) {
     }
 });
 
+// Acepta o rechaza la autorización de cambios
 var updateAuth = function($http, $window, auth) {
     $http({
         method: 'POST',
         url: uri_updateAuthorization,
         data: auth
     }).then(function(response) {
-        // alert(response.data.message);
         $window.location.reload();
     });
 }
